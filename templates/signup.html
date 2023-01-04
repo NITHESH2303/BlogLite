@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<style>
+    form{
+        background-color: lavenderblush;
+        height: max-content;
+        padding: 25px;
+    }
+    .center {
+        text-align: center;
+        width: auto;
+    }
+    .container{
+        text-align: start;
+        height: content-box;
+        width: auto;
+        margin: 100px;
+        padding: 25px;
+        border: 5px solid grey;
+        background: beige;
+    }
+    input[type=text], input[type=password] {
+        width: 100%;
+        margin: 8px 0;
+        padding: 12px 20px;
+        display: inline-block;
+        border: 2px solid paleturquoise;
+        box-sizing: border-box;
+    }
+    button
+
+</style>
+<body>
+<form action="" method="POST">
+    <div class="center">
+        <h1>Sign up a new Account</h1><br><br>
+        <div class="container">
+            {{ form.hidden_tag() }}
+            {{ form.username }}
+            {{ form.f_name }}
+            {{ form.l_name }}
+            {{ form.email }}
+            {{ form.password }}
+            {{ form.remember }}
+            {{ form.submit }}
+            Already have an account? <a href="{{ url_for('signin') }}">signin</a>
+        </div>
+    </div>
+</form>
+</body>
+</html>
