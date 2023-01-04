@@ -9,7 +9,6 @@ def signin():  # put application's code here
     form = signinForm()
     if form.validate_on_submit():
         user = Userinfo.query.filter_by(username=form.username.data).first()
-        print(user)
         if user:
             if user.password == form.password.data:
                 return redirect(url_for('profile'))
