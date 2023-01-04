@@ -1,9 +1,9 @@
 from flask_login import UserMixin
-from .database import db
+from applications.database import db
 from flask import current_app as app
 
 
-class Userinfo(db.Model):
+class Userinfo(db.Model, UserMixin):
     __tablename__ = 'userinfo'
     user_id = db.Column(db.Integer, primary_key=True, autoincrement=True, unique=True)
     username = db.Column(db.String, unique=True, nullable=False)

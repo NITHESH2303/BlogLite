@@ -26,5 +26,4 @@ class signinForm(FlaskForm):
                            render_kw={"placeholder": "Username"})
     password = PasswordField('Password', validators=[InputRequired(), Length(min=4, max=100)],
                              render_kw={"placeholder": "Password"})
-    remember = BooleanField('Remember Me')
     submit = SubmitField('Login')

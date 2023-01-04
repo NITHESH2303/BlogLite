@@ -30,7 +30,6 @@
         border: 2px solid paleturquoise;
         box-sizing: border-box;
     }
-    button
 
 </style>
 <body>
@@ -41,9 +40,7 @@
             {{ form.hidden_tag() }}
             {{ (form.username) }}
             {{ (form.password) }}
-            {{ form.remember }}
             {{ form.submit }}
-            Forgot your <a href="#">password?</a><br>
             Don't have an account? <a href="{{ url_for('signup') }}"> signup</a>
         </div>
     </div>
