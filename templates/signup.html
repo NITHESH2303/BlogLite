@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-</head>
-<style>
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>Signup</title>
+{% endblock %}
+
+{% block style %}
     form{
         background-color: lavenderblush;
         height: max-content;
@@ -33,22 +33,28 @@
     }
     button
 
-</style>
-<body>
-<form action="" method="POST">
-    <div class="center">
-        <h1>Sign up a new Account</h1><br><br>
-        <div class="container">
-            {{ form.hidden_tag() }}
-            {{ form.username }}
-            {{ form.f_name }}
-            {{ form.l_name }}
-            {{ form.email }}
-            {{ form.password }}
-            {{ form.submit }}
-            Already have an account? <a href="{{ url_for('signin') }}">signin</a>
+{% endblock %}
+
+{% block body %}
+    <form action="" method="POST">
+        <div class="center">
+            <h1>Sign up a new Account</h1>
+            <div class="container">
+
+                {{ form.hidden_tag() }}
+                <h3>Username</h3>
+                {{ form.username }}
+                <h3>First Name</h3>
+                {{ form.f_name }}
+                <h3>Last Name</h3>
+                {{ form.l_name }}
+                <h3>Email</h3>
+                {{ form.email }}
+                <h3>Password</h3>
+                {{ form.password }} <br><br>
+                {{ form.submit }} <br>
+                Already have an account? <a href="{{ url_for('signin') }}">signin</a>
+            </div>
         </div>
-    </div>
-</form>
-</body>
-</html>
+    </form>
+{% endblock %}
