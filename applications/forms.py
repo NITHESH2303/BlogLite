@@ -1,8 +1,13 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from flask_wtf.file import FileAllowed, FileRequired
+# from flask_uploads import UploadSet, IMAGES, configure_uploads
+from wtforms import StringField, PasswordField, SubmitField, FileField
 from wtforms.validators import InputRequired, ValidationError, Length
 
 from applications.models import *
+
+# photos = UploadSet('photos', IMAGES)
+# configure_uploads(app, photos)
 
 
 class signupForm(FlaskForm):
@@ -27,3 +32,11 @@ class signinForm(FlaskForm):
     password = PasswordField('Password', validators=[InputRequired(), Length(min=4, max=100)],
                              render_kw={"placeholder": "Password"})
     submit = SubmitField('Login')
+
+
+# class UploadForm(FlaskForm):
+#     photo = FileField('Photo', validators=[
+#         FileAllowed(photos, 'Only images are allowed'),
+#         FileRequired('File should not be empty')
+#     ])
+#     submit = SubmitField('Upload')

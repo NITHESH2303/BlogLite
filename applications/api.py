@@ -1,6 +1,22 @@
-from flask_restful import Resource
+from flask_restful import Resource, Api
 from applications.database import db
 from applications.models import *
+from flask import current_app as app
+
+api = Api(app)
+
+
+def post(username):
+    """
+    Create a user
+    ---
+    """
+    userinfo = db.session.query(Userinfo).filter(Userinfo.username == username).first()
+
+    if userinfo:
+        return {"user_id": userinfo.user_id, "username": userinfo.username}
+    else:
+        return {}, 404
 
 
 class UserAPI(Resource):
@@ -28,8 +44,5 @@ class UserAPI(Resource):
         ---
         """
 
-    def post(self):
-        """
-        Create a user
-        ---
-        """
+
+api.add_resource(UserAPI, '/profile/<string:username>')

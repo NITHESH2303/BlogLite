@@ -1,4 +1,6 @@
+from datetime import timedelta
 from flask import Flask
+from flask_login import LoginManager
 from flask_restful import Resource, Api
 from applications.database import db
 from applications.config import LocalDevelopmentConfig
@@ -14,17 +16,20 @@ def create_app():
     db.init_app(app)
     api = Api(app)
     app.app_context().push()
-    return app,api
+    return app, api
 
 
-app,api = create_app()
+app, api = create_app()
 
-app.config['SECRET_KEY'] = '84da5b8a39a6d06bf8bc7a60cedcac93'
+app.config['SECRET_KEY'] = 'secretiveness404'
+app.permanent_session_lifetime = timedelta(minutes=50)
+app.config["SESSION_TYPE"] = "filesystem"
+# app.config['UPLOADED_PHOTOS_DEST'] = 'uploads'
+
 
 from applications.controllers import *
 
 from applications.api import *
-api.add_resource(UserAPI, "/api/userinfo", "/api/userinfo/<string:username>")
 
 if __name__ == '__main__':
     app.run()
