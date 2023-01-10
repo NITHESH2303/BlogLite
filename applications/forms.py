@@ -1,3 +1,4 @@
+from flask_login import LoginManager
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed, FileRequired
 # from flask_uploads import UploadSet, IMAGES, configure_uploads
@@ -8,6 +9,10 @@ from applications.models import *
 
 # photos = UploadSet('photos', IMAGES)
 # configure_uploads(app, photos)
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
 
 
 class signupForm(FlaskForm):
@@ -32,7 +37,6 @@ class signinForm(FlaskForm):
     password = PasswordField('Password', validators=[InputRequired(), Length(min=4, max=100)],
                              render_kw={"placeholder": "Password"})
     submit = SubmitField('Login')
-
 
 # class UploadForm(FlaskForm):
 #     photo = FileField('Photo', validators=[
