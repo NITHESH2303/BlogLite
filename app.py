@@ -1,4 +1,6 @@
 from datetime import timedelta
+
+from elasticsearch import Elasticsearch
 from flask import Flask
 from flask_login import LoginManager
 from flask_restful import Resource, Api
@@ -22,8 +24,8 @@ def create_app():
 app, api = create_app()
 
 app.config['SECRET_KEY'] = 'secretiveness404'
-app.permanent_session_lifetime = timedelta(minutes=50)
-app.config["SESSION_TYPE"] = "filesystem"
+# app.elasticsearch = Elasticsearch([app.config['ELASTICSEARCH_URL']]) if app.config['ELASTICSEARCH_URL'] else None
+# app.config["SESSION_TYPE"] = "filesystem"
 # app.config['UPLOADED_PHOTOS_DEST'] = 'uploads'
 
 
