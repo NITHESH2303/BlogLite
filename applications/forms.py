@@ -1,18 +1,11 @@
+# import form as form
 from flask_login import LoginManager
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed, FileRequired
 # from flask_uploads import UploadSet, IMAGES, configure_uploads
-from wtforms import StringField, PasswordField, SubmitField, FileField
+from wtforms import StringField, PasswordField, SubmitField, FileField, BooleanField, SelectField, form, TextAreaField
 from wtforms.validators import InputRequired, ValidationError, Length
-
 from applications.models import *
-
-# photos = UploadSet('photos', IMAGES)
-# configure_uploads(app, photos)
-
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = 'login'
 
 
 class signupForm(FlaskForm):
@@ -25,7 +18,7 @@ class signupForm(FlaskForm):
     submit = SubmitField('Signup')
 
     def validate_username(self, username):
-        existing_username = Userinfo.query.filter_by(username=username.data).first()
+        existing_username = User.query.filter_by(username=username.data).first()
 
         if existing_username:
             raise ValidationError('Username already exists')
@@ -38,9 +31,26 @@ class signinForm(FlaskForm):
                              render_kw={"placeholder": "Password"})
     submit = SubmitField('Login')
 
-# class UploadForm(FlaskForm):
-#     photo = FileField('Photo', validators=[
-#         FileAllowed(photos, 'Only images are allowed'),
-#         FileRequired('File should not be empty')
-#     ])
-#     submit = SubmitField('Upload')
+
+class PostForm(FlaskForm):
+    desc = StringField('Text')
+    img = FileField('Image', validators=[FileAllowed(['jpg', 'jpeg', 'png', 'JPG', 'JPEG', 'PNG'])])  # IMAGE
+    post = SubmitField('Post')
+
+
+class Searchform(FlaskForm):
+    search = StringField('Username', validators=[InputRequired()])
+    # submit = SubmitField('Search')
+
+
+class EditProfileForm(FlaskForm):
+    username = StringField('Username', validators=[InputRequired()])
+    # img = FileField('Image', validators=[FileAllowed(['jpg', 'jpeg', 'png'])])
+    about_me = TextAreaField('About_me', validators=[Length(min=0, max=100)])
+    submit = SubmitField('Update')
+
+
+class EditPostForm(FlaskForm):
+    desc = StringField('Description')
+    img = FileField('Image', validators=[FileAllowed(['jpg', 'jpeg', 'png', 'JPG', 'JPEG', 'PNG'])])  # IMAGE
+    update = SubmitField('Update')

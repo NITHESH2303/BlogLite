@@ -29,18 +29,15 @@
 
             {% if current_user.is_following(user) and current_user.username!=user.username %}
 
-                <button class="btn profile-edit-btn"><a href="{{ url_for('unfollow', username=user.username) }}" class="unfollow">Unfollow</a></button>
+                <button class="btn profile-edit-btn"><a href="{{ url_for('unfollow', username=user.username ) }}" class="unfollow">Unfollow</a></button>
 
             {% elif user.username != current_user.username %}
 
-                <button class="btn profile-edit-btn"><a href="#" class="follow" id="follow">Follow</a></button>
+                <button type="submit" class="btn profile-edit-btn"><a href="/follow/{{user.id}}"> Follow</a></button>
 
-            {% else %}
-
-                <button class="btn profile-edit-btn" data-toggle="modal" data-target="#exampleModal" > New Post</button>
 
             {% endif %}
-            <button class="btn profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog" aria-hidden="true"></i></button>
+{#            <button class="btn profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog" aria-hidden="true"></i></button>#}
 
         </div>
 
@@ -48,17 +45,26 @@
 
             <ul>
                 <li><span class="profile-stat-count">{{ count }}<br></span>posts </li>
-                <li><span class="profile-stat-count">{{ user.followers.count() }}<br></span>followers</li>
-                <li><span class="profile-stat-count">{{ user.followed.count() }}<br></span>following</li>
+                <li><span class="profile-stat-count">{{ user.followers.count() }}<br></span>
+                    <a href="{{ url_for('all_followers', username=user.username) }}"> followers</a></li>
+                <li><span class="profile-stat-count">{{ user.followed.count() }}<br></span>
+                    <a href="{{ url_for('all_followings', username=user.username) }}">following</a></li>
             </ul>
 
         </div>
 
         <div class="profile-bio">
 
-            <p><span class="profile-real-name">Jane Doe</span> Lorem ipsum dolor sit, amet consectetur adipisicing elit 📷✈️🏕️</p>
+            <p><span class="profile-real-name"></span>
+                {{ user.f_name }} <br> {{ user.about_me }}</p>
 
         </div>
+
+        {% if user == current_user %}
+            <p>
+                <a href="{{ url_for('edit_profile', username=user.username) }}">Edit Profile</a>
+            </p>
+        {% endif %}
 
     </div>
     <!-- End of profile section -->
@@ -73,26 +79,43 @@
     <div class="container">
 
     <div class="gallery">
+        {% if posts| length!=0 %}
 
-        {% for p in post %}
+            {% for p in posts %}
 
-        <div class="gallery-item" tabindex="0">
+                <div class="gallery-item" >
 
-{#            <img src="https://images.unsplash.com/photo-1511765224389-37f0e77cf0eb?w=500&h=500&fit=crop" class="gallery-image" alt="">#}
+{#              <img src="https://images.unsplash.com/photo-1511765224389-37f0e77cf0eb?w=500&h=500&fit=crop" class="gallery-image" alt="">#}
+                <a href="{{ url_for('post_detail', id=p.id) }}"><img src="{{ p.img }}" class="card-img-top" alt="" height="300" width="auto"></a>
+                    <p><span class="profile-real-name">{{ p.description }}</span></p>
+                </div>
 
-            <div class="gallery-item-info">
+                    <div class="gallery-item-info">
+                        <ul>
+                    <li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i></li>
+                    <li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i> 2</li>
 
-
-                <ul>
-{#                    <li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i> 56</li>#}
-{#                    <li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i> 2</li>#}
-                    <a href="{{ url_for('post_detail', id=p.id) }}">
-                        <img src="{{ p.img }}" class="class-img-top" alt="...">
-                    </a>
-                </ul>
-
-            </div>
+                        </ul>
+                    </div>
             {% endfor %}
+        {% endif %}
+        {% if user.username == current_user.username %}
+            {% if posts| length ==0 %}
+                <div class="alert alert-dark" role="alert">
+                    Sorry but no posts were found. Try posting something.
+                </div>
+            {% endif %}
+            </div>
+                <div class="col">
+                    <p>Hello, {{ current_user.username }}</p>
+                    <p>Wanna post something, <a href="{{ url_for('create_post') }}"><button class="btn btn-outline-dark">Create a Post</button></a></p>
+                </div>
+            </div>
+        {% elif posts|length ==0 %}
+            <div class="alert alert-dark" role="alert">
+                    This user haven't posted lately
+                </div>
+        {% endif %}
 {##}
 {#        </div>#}
 {##}
@@ -300,7 +323,7 @@
 {#    </div>#}
     <!-- End of gallery -->
 
-    <div class="loader"></div>
+{#    <div class="loader"></div>#}
 
     </div>
     <!-- End of container -->
